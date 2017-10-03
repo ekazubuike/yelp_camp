@@ -1,3 +1,6 @@
+const   Comment = require('../models/comment'),
+        Camp    = require('../models/camp');
+
 const middlewareObj = {};
 
 middlewareObj.checkCampOwnership = function(req, res, next){
