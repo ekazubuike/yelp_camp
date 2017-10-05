@@ -51,8 +51,9 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 router.get("/:id", function(req, res){
     //find the ground with provided ID
     Camp.findById(req.params.id).populate("comments").exec(function(err, camp){
-        if(err) {
-            console.log(err);
+        if(err || !camp) {
+            req.flash("error", "No such camp found!");
+            res.redirect("/grounds");
         } else {
             res.render("grounds/show", {camp: camp});
         }
