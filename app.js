@@ -6,6 +6,7 @@ const   methodOverride  = require('method-override'),
         mongoose        = require('mongoose'),
         express         = require('express'),
         seedDB          = require('./seeds'),
+        flash           = require('connect-flash'),
         app             = express();
 
 //MODELS        
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 //seed database
 //seedDB();
 
