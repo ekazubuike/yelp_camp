@@ -32,7 +32,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         username: req.user.username
     };
     let newCamp = {
-        name: req.body.camp.name, 
+        name: req.body.camp.name,
+        price: req.body.camp.price,
         image: req.body.camp.image, 
         description: req.body.camp.description, 
         author: author
