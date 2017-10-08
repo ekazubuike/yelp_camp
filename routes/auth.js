@@ -4,7 +4,7 @@ const   express     = require('express'),
         User        = require('../models/user');
 
 router.get("/", function(req, res){
-    res.render("home");
+    res.render("landing");
 });
 
 //============
