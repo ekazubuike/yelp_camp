@@ -9,6 +9,10 @@ const campSchema = new mongoose.Schema({
     lat: Number,
     lng: Number,
     location: String,
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,

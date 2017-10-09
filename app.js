@@ -1,13 +1,13 @@
 //DEPENDENCIES
-const   methodOverride  = require('method-override'),
-        localStrategy   = require('passport-local'),
-        bodyParser      = require('body-parser'),
-        passport        = require('passport'),
-        mongoose        = require('mongoose'),
-        express         = require('express'),
-        seedDB          = require('./seeds'),
-        flash           = require('connect-flash'),
-        app             = express();
+const   methodOverride      = require('method-override'),
+        localStrategy       = require('passport-local'),
+        bodyParser          = require('body-parser'),
+        passport            = require('passport'),
+        mongoose            = require('mongoose'),
+        express             = require('express'),
+        seedDB              = require('./seeds'),
+        flash               = require('connect-flash'),
+        app                 = express();
 
 //MODELS        
 const   Camp            = require('./models/camp'),
@@ -31,6 +31,8 @@ app.use(flash());
 //seed database
 //seedDB();
 
+//Make Moment.js available to all views
+app.locals.moment = require('moment');
 
 //PASSPORT CONFIG
 app.use(require('express-session')({
