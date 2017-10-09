@@ -1,4 +1,5 @@
 const   middleware  = require('../middleware'),
+        geocoder    = require('geocoder'),
         express     = require('express'),
         router      = express.Router(),
         Camp        = require('../models/camp');
@@ -38,12 +39,24 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         description: req.body.camp.description, 
         author: author
     };
-    //create new camp and save to db
-    Camp.create(newCamp, function(err,camp){
-        if(err) {
-            console.log(err);
+    geocoder.geocode(req.body.camp.location, function(err, data){
+        if(err){
+            req.flash("error", err.message);
+            res.redirect("back");
         } else {
-            res.redirect("/grounds");
+            newCamp.lat = data.results[0].geometry.location.lat;
+            newCamp.lng = data.results[0].geometry.location.lng;
+            newCamp.location = data.results[0].formatted_address;
+            //create new camp and save to db
+            Camp.create(newCamp, function(err,camp){
+                if(err) {
+                    req.flash("error", err.message);
+                    res.redirect("back");
+                } else {
+                    req.flash("success", "Campground successfully created!");
+                    res.redirect("/grounds");
+                }
+            });
         }
     });
 });
@@ -70,13 +83,18 @@ router.get("/:id/edit", middleware.checkCampOwnership, function(req, res){
 
 //UPDATE
 router.put("/:id", middleware.checkCampOwnership, function(req, res){
-    Camp.findByIdAndUpdate(req.params.id, req.body.camp, function(err, camp){
-        if(err){
-            console.log(err);
-            res.redirect("/grounds");
-        } else {
-            res.redirect("/grounds/" + req.params.id);
-        }
+    geocoder.geocode(req.body.camp.location, function(err, data){
+        req.body.camp.lat = data.results[0].geometry.location.lat;
+        req.body.camp.lng = data.results[0].geometry.location.lng;
+        req.body.camp.location = data.results[0].formatted_address;
+        Camp.findByIdAndUpdate(req.params.id, req.body.camp, function(err, camp){
+            if(err){
+                req.flash("error", err.message);
+                res.redirect("/grounds");
+            } else {
+                res.redirect("/grounds/" + req.params.id);
+            }
+        });
     });
 });
 

@@ -6,6 +6,9 @@ const campSchema = new mongoose.Schema({
     price: String,
     image: String,
     description: String,
+    lat: Number,
+    lng: Number,
+    location: String,
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,

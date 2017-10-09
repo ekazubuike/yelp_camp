@@ -9,6 +9,7 @@
                 <li class="list-group-item">Category B</li>
                 <li class="list-group-item">Category C</li>
             </div>
+            <div id="map"></div>
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
@@ -58,17 +59,33 @@
     </div>
 </div>
 
-
-
-
-
-
-
-<p>
-    
-</p>
-
-
-
+<script>
+  function initMap() {
+    let lat = <%= camp.lat %>;
+    let lng = <%= camp.lng %>;
+    let center = {lat: lat, lng: lng };
+    const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    let contentString = `
+      <strong><%= camp.name %><br />
+      <%= camp.location %></strong>
+      <p><%= camp.description %></p>
+    `
+    let infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    let marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZ-LE9HUU4Cwfl4yqw6d1sOQFARZtSkjs&callback=initMap"></script>
 
 <% include ../partials/footer %>
