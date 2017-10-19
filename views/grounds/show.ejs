@@ -1,63 +1,62 @@
 <% include ../partials/header %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <p class="lead">YelpCamp</p>
-            <div class="list-group">
-                <li class="list-group-item active">Category A</li>
-                <li class="list-group-item">Category B</li>
-                <li class="list-group-item">Category C</li>
-            </div>
-            <div id="map"></div>
+<div class="row">
+    <div class="col-md-3">
+        <p class="lead">YelpCamp</p>
+        <div class="list-group">
+            <li class="list-group-item active">Category A</li>
+            <li class="list-group-item">Category B</li>
+            <li class="list-group-item">Category C</li>
         </div>
-        <div class="col-md-9">
-            <div class="thumbnail">
-                <img class="img-responsive" src="<%= camp.image %>">
-                <div class="caption-full">
-                    <h4 class="pull-right">$<%= camp.price %>/night</h4>
-                    <h4><a><%= camp.name %></a></h4>
-                    <p><%= camp.description %></p>
-                    <p>
-                        <em>Submitted by <%= camp.author.username %>, <%= moment(camp.createdAt).fromNow() %></em>
-                    </p>
-                    <% if(currentUser && camp.author.id.equals(currentUser._id)) { %>
-                        <a class="btn btn-warning" href="/grounds/<%= camp._id %>/edit">Edit Submission</a>
-                        <form class="delete-form" action="/grounds/<%= camp._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger">DELETE!</button>
-                        </form>
-                    <% } %>
+        <div id="map"></div>
+    </div>
+    <div class="col-md-9">
+        <div class="thumbnail">
+            <img class="img-responsive" src="<%= camp.image %>">
+            <div class="caption-full">
+                <h4 class="pull-right">$<%= camp.price %>/night</h4>
+                <h4><a><%= camp.name %></a></h4>
+                <p><%= camp.description %></p>
+                <p>
+                    <em>Submitted by <%= camp.author.username %>, <%= moment(camp.createdAt).fromNow() %></em>
+                </p>
+                <% if(currentUser && camp.author.id.equals(currentUser._id)) { %>
+                    <a class="btn btn-warning" href="/grounds/<%= camp._id %>/edit">Edit Submission</a>
+                    <form class="delete-form" action="/grounds/<%= camp._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">DELETE!</button>
+                    </form>
+                <% } %>
+            </div>
+        </div>
+        <div class="well">
+            <div class="text-right">
+                <a class="btn btn-success" href="/grounds/<%= camp._id %>/comments/new">Add a new comment!</a>
+                
                 </div>
-            </div>
-            <div class="well">
-                <div class="text-right">
-                    <a class="btn btn-success" href="/grounds/<%= camp._id %>/comments/new">Add a new comment!</a>
-                    
-                    </div>
-                    <hr>
-                    <% camp.comments.forEach(function(comment){ %>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <strong><%= comment.author.username %></strong>
-                                <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
-                                <p>
-                                    <%= comment.text %>
-                                </p>
-                                <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
-                                    <a class="btn btn-xs btn-warning" href="/grounds/<%= camp._id %>/comments/<%= comment._id %>/edit">
-                                        Edit
-                                    </a>
-                                    <form class="delete-form" action="/grounds/<%= camp._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                        <button class="btn btn-xs btn-danger">DELETE!</button>
-                                    </form>
-                                <% } %>
-                            </div>
+                <hr>
+                <% camp.comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong><%= comment.author.username %></strong>
+                            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                            <p>
+                                <%= comment.text %>
+                            </p>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
+                                <a class="btn btn-xs btn-warning" href="/grounds/<%= camp._id %>/comments/<%= comment._id %>/edit">
+                                    Edit
+                                </a>
+                                <form class="delete-form" action="/grounds/<%= camp._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-xs btn-danger">DELETE!</button>
+                                </form>
+                            <% } %>
                         </div>
-                    <% }); %>
-            </div>
+                    </div>
+                <% }); %>
         </div>
     </div>
 </div>
+
 
 <script>
   function initMap() {

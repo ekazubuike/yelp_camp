@@ -72,6 +72,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
         if(err){
             res.redirect("back");
         } else {
+            req.flash("success", "Comment updated!")
             res.redirect("/grounds/" + req.params.id);
         }
     });

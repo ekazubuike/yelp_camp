@@ -11,9 +11,9 @@ router.get("/", function(req, res){
 //AUTH ROUTES
 //============
 
-//register form
+//SHOW register form
 router.get("/register", function(req, res){
-    res.render("register");
+    res.render("register", {page: 'register'});
 });
 
 //handle sign-up logic
@@ -33,9 +33,9 @@ router.post("/register", function(req, res){
     });
 });
 
-//show login form
+//SHOW login form
 router.get("/login", function(req, res){
-    res.render("login");
+    res.render("login", {page: 'login'});
 });
 
 //handle login logic
