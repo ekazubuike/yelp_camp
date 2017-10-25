@@ -18,7 +18,14 @@ router.get("/register", function(req, res){
 
 //handle sign-up logic
 router.post("/register", function(req, res){
-    let newUser = new User({username: req.body.username});
+    let newUser = new User(
+        {
+            username: req.body.username,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.lastName,
+            avatar: req.body.avatar
+        });
     if(req.body.adminCode === 'secretcode123') {
         newUser.isAdmin = true;
     }
@@ -52,8 +59,20 @@ router.post("/login", passport.authenticate("local",
 //logout 
 router.get("/logout", function(req, res){
    req.logout();
-   req.flash("success", "Successfully logged you out.")
+   req.flash("success", "Successfully logged you out.");
    res.redirect("/grounds");
+});
+
+//user profiles
+router.get("/users/:id", function(req, res){
+    User.findById(req.body.params, function(err, foundUser){
+       if(err || !foundUser ){
+           req.flash("error", "No user found!");
+           res.redirect("/grounds");
+       } else {
+           res.render("users/show", {user: foundUser});
+       }
+    });
 });
 
 module.exports = router;
