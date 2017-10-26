@@ -18,7 +18,7 @@
                 <h4><a><%= camp.name %></a></h4>
                 <p><%= camp.description %></p>
                 <p>
-                    <em>Submitted by <%= camp.author.username %>, <%= moment(camp.createdAt).fromNow() %></em>
+                    <em>Submitted by <a href="/users/<%= camp.author.id %>"><%= camp.author.username %></a>, <%= moment(camp.createdAt).fromNow() %></em>
                 </p>
                 <% if(currentUser && camp.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
                     <a class="btn btn-warning" href="/grounds/<%= camp._id %>/edit">Edit Submission</a>
